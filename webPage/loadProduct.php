@@ -46,8 +46,8 @@
         <div class="card-footer" style="text-align: center;">
             <?php
                 if(isset($_SESSION['current_user'])){
-                    echo "<a href='index.php?add={$row['id']}' class='btn btn-warning mx-2'><i class='fa fa-cart-plus'></i>Add Cart</a>";
-                    echo "<a href='webPage/buy.php?buy={$row['id']}' class='btn btn-success mx-3'>Buy</a>";
+                    echo "<a href='index.php?add={$row['id']}' class='btn btn-success mx-2'></i>Add Cart</a>";
+                    echo "<a href='webPage/buy.php?buy={$row['id']}' class='btn btn-danger mx-3'>Buy</a>";
                 }
                 else {
                     echo "<a href='webPage/login.php' class='btn btn-danger'>Buy</a>";

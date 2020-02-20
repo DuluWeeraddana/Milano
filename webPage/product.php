@@ -11,6 +11,16 @@
         $result = mysqli_query($conn, $sql);
 
         $rowProId = mysqli_fetch_assoc($result);
+        
+        $sql = "SELECT * FROM `stock` WHERE id= '{$_GET['proId']}' ";
+
+        $resultSizes = mysqli_query($conn, $sql);
+        
+        $sql = "SELECT SUM(`availabe`) AS 'count' FROM `stock` WHERE `id`= '{$_GET['proId']}'";
+
+        $result = mysqli_query($conn, $sql);
+
+        $rowStockCount = mysqli_fetch_assoc($result);
     
     }
 
@@ -154,23 +164,39 @@
                         <table class="table">
                             <tr>
                                 <th class="p-4">Description</th>
-                                <td><?php echo $rowProId['description']; ?></td>    
+                                <td class="text-success"><?php echo $rowProId['description']; ?></td>    
                             </tr>
                             <tr>
                                  <th class="p-4">Price</th>
-                                <td><?php echo $rowProId['price']; ?></td>
+                                <td class="text-success"><b>LKR <?php echo $rowProId['price']; ?></b></td>
+                            </tr>
+                            <tr>
+                                 <th class="p-4">Size</th>
+                                <td class="text-success">
+                                    <?php 
+                                        while($rowSizes = mysqli_fetch_assoc($resultSizes)) {
+                                        echo "<button name='size' onclick='getSizeData()' class='btn btn-outline-success m-1'>{$rowSizes['size']}</button>";
+                                        } ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="p-4">Quantity</th>
+                                <td class="text-success">
+                                    <input type="number" value="1" min="1" max="10" step="1">
+                                    <?php echo $rowStockCount['count']; ?> Available
+                                </td>
                             </tr>
                             <tr>
                                 <th class="p-4">Product Code</th>
-                                <td><?php echo $rowProId['id']; ?></td>
+                                <td class="text-success"><?php echo $rowProId['id']; ?></td>
                             </tr>
                              <tr>
                                 <th class="p-4">Brand</th>
-                                <td><?php echo $rowProId['bname']; ?></td>
+                                <td class="text-success"><?php echo $rowProId['bname']; ?></td>
                             </tr>
                              <tr>
                                 <th class="p-4">Category</th>
-                                <td><?php echo $rowProId['name']; ?></td>
+                                <td class="text-success"><?php echo $rowProId['type']; ?></td>
                             </tr>
                         </table>        
                     </div>

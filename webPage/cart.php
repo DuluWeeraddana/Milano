@@ -168,7 +168,8 @@
                                     <p class="card-text"><?php echo $row['description']?></p>
                                     <?php
                                         if(isset($_SESSION['current_user'])){
-                                            echo "<p class='text-success'>Shipping: LKR ".number_format($row['price'],2)."</p>";
+                                            echo "<p class='text-success'>Price: LKR ".number_format($row['price'],2)."</p>";
+                                            echo "<p class='text-success'>Shipping Price: LKR ".number_format($row['price'],2)."</p>";
                                         }
                                         else {
                                             echo "<p class='text-success'>Please <a href='login.php'>login/Signup</a> to show the shipping cost</p>";
@@ -177,7 +178,6 @@
                                 </div>
                                 <div class="card-footer" style="text-align: center;">
                                     <?php
-                                        echo "<a href='cart.php' class='btn btn-success mx-2'>Buy</a>";
                                         echo "<a href='cart.php?remove={$row['cartId']}' class='btn btn-danger mx-2'>Remove</a>";
                                     ?>
                                 </div>

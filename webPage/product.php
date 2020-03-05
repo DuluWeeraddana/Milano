@@ -16,11 +16,19 @@
 
         $resultSizes = mysqli_query($conn, $sql);
         
-        $sql = "SELECT SUM(`availabe`) AS 'count' FROM `stock` WHERE `id`= '{$_GET['proId']}'";
+        $sql = "SELECT SUM(`available`) AS 'count' FROM `stock` WHERE `id`= '{$_GET['proId']}'";
 
         $result = mysqli_query($conn, $sql);
 
         $rowStockCount = mysqli_fetch_assoc($result);
+    
+    }
+
+    if(isset($_GET['add'])) {
+	    
+        $sql = "INSERT INTO `cart`(`product_id`, `customer_id`) VALUES ('{$_GET['add']}','{$_SESSION['current_user']}')";
+        
+        mysqli_query($conn, $sql);
     
     }
 
@@ -67,6 +75,30 @@
         <link href="../css/home.css" rel="stylesheet">
         
         <script src="../vendor/jquery/jquery.min.js"></script>
+        
+        <script>
+            function showSizeDetails(str) {
+                var xhttp;
+                if (str == "") {
+                    document.getElementById("txtHint").innerHTML = "";
+                    return;
+                }
+                
+                xhttp = new XMLHttpRequest();
+                
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("txtHint").innerHTML = this.responseText;
+                        var input = document.getElementById ("sizeInput");
+                        input.max = this.responseText;
+                        input.value = 1;
+                    }
+                };
+                
+                xhttp.open("GET", "productSize.php?size="+str, true);
+                xhttp.send();
+            }
+        </script>
         
         <style>
             body {
@@ -175,7 +207,7 @@
                                 <td class="text-success">
                                     <?php 
                                         while($rowSizes = mysqli_fetch_assoc($resultSizes)) {
-                                        echo "<button name='size' onclick='getSizeData()' class='btn btn-outline-success m-1'>{$rowSizes['size']}</button>";
+                                            echo "<button name='size' value='{$rowSizes['size']}' onclick='showSizeDetails(this.value)' class='btn btn-outline-success m-1'>{$rowSizes['size']}</button>";
                                         } ?>
                                 </td>
                             </tr>
@@ -183,7 +215,7 @@
                                 <th class="p-4">Quantity</th>
                                 <td class="text-success">
                                     <input type="number" value="1" min="1" max="10" step="1">
-                                    <?php echo $rowStockCount['count']; ?> Available
+                                    <?php echo "<font id='txtHint'>".$rowStockCount['count']."</font>"; ?> Available
                                 </td>
                             </tr>
                             <tr>

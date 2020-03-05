@@ -261,7 +261,7 @@
                                     <p class="card-text"><?php echo $row['description']?></p>
                                     <?php
                                         if(isset($_SESSION['current_user'])){
-                                            echo "<p class='text-success'>Shipping: LKR {$row['price']}</p>";
+                                            echo "<p class='text-success'>Price: LKR {$row['price']}</p>";
                                         }
                                         else {
                                             echo "<p class='text-success'>Please <a href='webPage/login.php'>login/Signup</a> to show the shipping cost</p>";
